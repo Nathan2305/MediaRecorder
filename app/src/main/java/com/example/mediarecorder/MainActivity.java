@@ -8,10 +8,6 @@ import android.view.View;
 import android.widget.Button;
 
 import java.io.File;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -36,13 +32,13 @@ public class MainActivity extends AppCompatActivity {
         startAudio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startService(new Intent(getApplicationContext(), MyService.class));
+                startService(new Intent(getApplicationContext(), ServiceRecorder.class));
             }
         });
         stopAudio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                stopService(new Intent(getApplicationContext(), MyService.class));
+                stopService(new Intent(getApplicationContext(), ServiceRecorder.class));
             }
         });
     }

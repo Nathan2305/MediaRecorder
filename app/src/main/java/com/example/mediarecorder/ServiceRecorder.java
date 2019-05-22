@@ -3,24 +3,21 @@ package com.example.mediarecorder;
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaRecorder;
-import android.os.Environment;
 import android.os.IBinder;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static com.example.mediarecorder.MainActivity.FOLDER_AUDIO;
 
-public class MyService extends Service {
+public class ServiceRecorder extends Service {
     private static String OUTPUTFILE = "";
     String nameAudio = "";
     MediaRecorder mediaRecorder;
 
-    public MyService() {
-    }
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -35,7 +32,7 @@ public class MyService extends Service {
         DateFormat sdf = DateFormat.getDateInstance();
         DateFormat sdf2 = DateFormat.getTimeInstance();
         Date date = new Date();
-        nameAudio=sdf.format(date)+sdf2.format(date)+".mp3";
+        nameAudio = sdf.format(date) + "_" + sdf2.format(date) + ".mp3";
         File file = new File(FOLDER_AUDIO, nameAudio);
         try {
             if (file.createNewFile()) {
@@ -46,11 +43,11 @@ public class MyService extends Service {
         } catch (IOException e) {
             System.out.println("Error creando archivo: " + e.getMessage());
         }
-
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Toast.makeText(this,"Servicio de grabación iniciado",Toast.LENGTH_SHORT).show();
         try {
             OUTPUTFILE = FOLDER_AUDIO + "/" + nameAudio;
             mediaRecorder = new MediaRecorder();
@@ -71,6 +68,9 @@ public class MyService extends Service {
         super.onDestroy();
         if (mediaRecorder != null) {
             mediaRecorder.stop();
+            Toast.makeText(this, "Servicio Detenido", Toast.LENGTH_SHORT).show();
         }
     }
+
+
 }
